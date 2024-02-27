@@ -21,7 +21,7 @@ func NewFindUserByIdUsecase(uds user.UserDomainService, ads administrator.AdminD
 func (us *FindUserByIdUsecase) Run(ctx context.Context, id string) (*user.User, error) {
 	value, ok := ctx.Value("user_id").(string)
 	if !ok {
-		return nil, user.ErrInvalidUserID
+		return nil, ErrInvalidUserID
 	}
 
 	adminUser, err := us.ads.FindUser(ctx, value)
@@ -38,7 +38,7 @@ func (us *FindUserByIdUsecase) Run(ctx context.Context, id string) (*user.User, 
 	}
 
 	if adminUser.GetAdmin() != 1 {
-		return nil, administrator.ErrInvalidAdmin
+		return nil, ErrInvalidAdmin
 	}
 
 	return nil, errors.New("unexpected error occurred")

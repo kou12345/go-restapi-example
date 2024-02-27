@@ -25,7 +25,7 @@ func (us *DeleteUserUsecase) Run(ctx context.Context, id string) error {
 	value, ok := ctx.Value("user_id").(string)
 	if !ok {
 		// ユーザーIDが取得できない場合はエラー
-		return user.ErrInvalidUserID
+		return ErrInvalidUserID
 	}
 
 	// 管理者ユーザー取得
@@ -47,7 +47,7 @@ func (us *DeleteUserUsecase) Run(ctx context.Context, id string) error {
 	// 管理者ユーザーではない 且つ 削除対象ユーザーのidが自身と一致しない場合
 
 	if adminUser.GetAdmin() != 1 {
-		return administrator.ErrInvalidAdmin
+		return ErrInvalidAdmin
 	}
 
 	// ここに到達する場合はない気がする
