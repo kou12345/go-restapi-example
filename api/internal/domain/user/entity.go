@@ -36,7 +36,7 @@ type User struct {
 	id               userUUID
 	email            userEmail
 	password         userPassWord
-	user_id          userID
+	userId           userID
 	firstName        userFirstName
 	lastName         userLastName
 	gender           userGender
@@ -200,16 +200,40 @@ func (v *userPassWord) decode(hash string, sault string) error {
 }
 
 // バリューオブジェクトの取得関数
-func (u *userUUID) GetUUID() string                     { return u.value }
-func (u *userID) GetID() string                         { return u.value }
-func (u *userEmail) GetEmail() string                   { return u.value }
-func (u *userFirstName) GetFirstName() string           { return u.value }
-func (u *userLastName) GetLastName() string             { return u.value }
-func (u *userGender) GetGender() string                 { return u.value }
-func (u *userBirthDay) GetBirthDay() string             { return u.value }
-func (u *userPassWord) GetPassWord() string             { return u.value }
-func (u *userPhoneNumber) GetPhoneNumber() string       { return u.value }
-func (u *postOfficeNumber) GetPostOfficeNumber() string { return u.value }
-func (u *pref) GetPref() string                         { return u.value }
-func (u *city) GetCity() string                         { return u.value }
-func (u *extra) GetExtra() string                       { return u.value }
+func (u *User) GetUUID() string             { return u.id.value }
+func (u *User) GetID() string               { return u.userId.value }
+func (u *User) GetEmail() string            { return u.email.value }
+func (u *User) GetFirstName() string        { return u.firstName.value }
+func (u *User) GetLastName() string         { return u.lastName.value }
+func (u *User) GetGender() string           { return u.gender.value }
+func (u *User) GetBirthDay() string         { return u.birthDay.value }
+func (u *User) GetPassWord() string         { return u.password.value }
+func (u *User) GetPhoneNumber() string      { return u.phoneNumber.value }
+func (u *User) GetPostOfficeNumber() string { return u.postOfficeNumber.value }
+func (u *User) GetPref() string             { return u.pref.value }
+func (u *User) GetCity() string             { return u.city.value }
+func (u *User) GetExtra() string            { return u.extra.value }
+
+// 名前が被る為、引数をスネークケースにした
+// 構造体生成関数
+func NewUser(id string, email string, password string, user_id string, first_name string, last_name string, gender string, birthday string, phoneNumber string, post_office_number string, pref_name string, city_name string, extra_name string) *User {
+	return newUser(id, email, password, user_id, first_name, last_name, gender, birthday, phoneNumber, post_office_number, pref_name, city_name, extra_name)
+}
+
+func newUser(id string, email string, password string, user_id string, first_name string, last_name string, gender string, birthday string, phoneNumber string, post_office_number string, pref_name string, city_name string, extra_name string) *User {
+	return &User{
+		id:               userUUID{value: id},
+		email:            userEmail{value: email},
+		password:         userPassWord{value: password},
+		userId:           userID{value: user_id},
+		firstName:        userFirstName{value: first_name},
+		lastName:         userLastName{value: last_name},
+		birthDay:         userBirthDay{value: birthday},
+		gender:           userGender{value: gender},
+		phoneNumber:      userPhoneNumber{value: phoneNumber},
+		postOfficeNumber: postOfficeNumber{value: post_office_number},
+		pref:             pref{value: pref_name},
+		city:             city{value: city_name},
+		extra:            extra{value: extra_name},
+	}
+}
